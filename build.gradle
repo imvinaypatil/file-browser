@@ -31,7 +31,10 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
 	compile('org.springframework.boot:spring-boot-starter-webflux')
-	compile('org.synchronoss.cloud:nio-maltipart-parser:1.1.0')
+//    compile('org.springframework.boot:spring-boot-starter-security')
+//	compile('org.springframework.boot:spring-boot-starter-tomcat')
+//    compile("org.springframework.boot:spring-boot-starter-reactor-netty")
+	compile('org.synchronoss.cloud:nio-maltipart-parser')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('io.projectreactor:reactor-test')

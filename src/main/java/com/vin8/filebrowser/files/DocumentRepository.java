@@ -1,6 +1,5 @@
-package com.vin8.filebrowser.files.repositories;
+package com.vin8.filebrowser.files;
 
-import com.vin8.filebrowser.files.models.Document;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

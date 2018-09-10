@@ -22,4 +22,24 @@ public class Directory {
         this.owner = owner;
         this.creationTime = creationTime;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getParentDirectory() {
+        return parentDirectory;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
 }

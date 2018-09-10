@@ -1,4 +1,4 @@
-package com.vin8.filebrowser.files.models;
+package com.vin8.filebrowser.files;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -13,13 +13,15 @@ public class Document {
     private String parentDirectory;
     private final String owner;
     private final Long creationTime;
+    private final String type;
 
-    public Document(String id, String name, String parentDirectory, String owner, Long creationTime) {
+    public Document(String id, String name, String parentDirectory, String owner, Long creationTime, String type) {
         this.id = id;
         this.name = name;
         this.parentDirectory = parentDirectory;
         this.owner = owner;
         this.creationTime = creationTime;
+        this.type = type;
     }
 
     public String getId() {
@@ -40,5 +42,9 @@ public class Document {
 
     public Long getCreationTime() {
         return creationTime;
+    }
+
+    public String getType() {
+        return type;
     }
 }
