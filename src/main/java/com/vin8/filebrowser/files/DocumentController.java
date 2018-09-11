@@ -45,14 +45,19 @@ public class DocumentController {
         return documentService.findByParentDirectory(path);
     }
 
-    @PostMapping(BASE_PATH+"/"+"{user}"+"{parent}"+"/upload")
-    public Mono<String> createFile(@RequestPart(name = "file")Flux<FilePart> files,@PathVariable String parent,@PathVariable String user) {
+    @PostMapping(BASE_PATH+"/"+"{user}"+"/upload")
+    public Mono<String> createFile(@RequestPart(name = "file")Flux<FilePart> files,@RequestParam String parent,@PathVariable String user) {
         return documentService.createDocument(files,parent,user).then(Mono.just("redirect:/"));
     }
 
-    @DeleteMapping(BASE_PATH+"/"+"{user}"+"/"+"{parent}"+"/"+FILE_NAME)
-    public Mono<String> deleteFile(@PathVariable String filename,@PathVariable String parent,@PathVariable String user) {
-        return documentService.deleteDocument(filename,parent).then(Mono.just("redirect:/"));
+    @DeleteMapping(BASE_PATH+"/"+"{user}"+"/delete"+"/"+"{fileid}")
+    public Mono<String> deleteFile(@PathVariable String fileid,@RequestParam String filename,@RequestParam String parent,@PathVariable String user) {
+        return documentService.deleteDocument(fileid,filename,parent).then(Mono.just("redirect:/"));
+    }
+
+    @PostMapping(BASE_PATH+"/"+"{user}"+"/create"+"/directory")
+    public Mono<Document> createDirectory(@RequestParam String name,@RequestParam String path,@PathVariable String user) {
+        return documentService.createDirectory(name,path,user);
     }
 
 }

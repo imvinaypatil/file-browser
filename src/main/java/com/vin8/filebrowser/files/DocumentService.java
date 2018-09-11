@@ -44,15 +44,15 @@ public class DocumentService {
                             return dest;
                         } catch (IOException e) {
                             throw new RuntimeException(e);
-                        }}).flatMap(filePart::transferTo);
+                        }}).flatMap(filePart::transferTo); //TODO file store bug.
             return Mono.when(saveDatabaseDocument,copyFile);
         }).then();
     }
 
     /*
     * TODO append filename with Document id */
-    public Mono<Void> deleteDocument(String filename,String directory) {
-        final Mono<Document> documentMono = documentRepository.findByNameAndParentDirectory(filename,directory);
+    public Mono<Void> deleteDocument(String fileid, String filename,String directory) {
+        final Mono<Document> documentMono = documentRepository.findById(fileid);
         Mono<Void> deleteDBEntry = documentMono.flatMap(documentRepository::delete);
         Mono<Void> deleteFile = Mono.fromRunnable(() -> {
             documentMono.flatMap(document -> {
@@ -65,6 +65,10 @@ public class DocumentService {
             });
         });
         return Mono.when(deleteDBEntry,deleteFile).then();
+    }
+
+    public Mono<Document> createDirectory(String name,String parent,String owner) {
+        return documentRepository.save(new Document(UUID.randomUUID().toString(),name,parent,owner,System.currentTimeMillis(),"directory"));
     }
 
     public Mono<Document> findByName(String name) {
