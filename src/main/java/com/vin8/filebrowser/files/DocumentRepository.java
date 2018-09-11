@@ -11,5 +11,5 @@ public interface DocumentRepository extends ReactiveCrudRepository<Document,Stri
     Flux<Document> findByParentDirectory(String directory);
     Mono<Document> findByNameAndParentDirectory(String name,String directory);
     Mono<Document> findByNameAndOwner(String name,String owner);
-    Mono<Document> findByNameParentDirectoryAndType(String name,String directory,String type);
+//    Mono<Document> findByNameParentDirectoryAndType(String name,String directory,String type);
 }

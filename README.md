@@ -36,7 +36,13 @@
     name: 'dir'
     path: '/root'
 
-######Known issues
+#### Known issues
 * file doesn't get copied to local storage 
  
+**References**
+ https://spring.io/guides
+ https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/
+ 
+
+
     
