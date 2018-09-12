@@ -44,7 +44,7 @@ public class DocumentService {
                             return dest;
                         } catch (IOException e) {
                             throw new RuntimeException(e);
-                        }}).flatMap(filePart::transferTo); //TODO file store bug.
+                        }}).flatMap(filePart::transferTo); //TODO BUG file store .
             return Mono.when(saveDatabaseDocument,copyFile);
         }).then();
     }

@@ -39,7 +39,8 @@ public class DocumentController {
                 });
     }
 
-    @PostMapping(value = BASE_PATH+"/"+"{user}"+"/list")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = BASE_PATH+"/"+"{user}"+"/list")
     @ResponseBody
     public Flux<Document> listFiles(@RequestParam String path) {
         return documentService.findByParentDirectory(path);

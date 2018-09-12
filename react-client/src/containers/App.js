@@ -18,9 +18,13 @@ class App extends Component {
   };
 
   componentDidMount() {
-    axios.post('/files/user/list',{path: "/root"})
-      .then(response => {
-        this.setState({filelist: response});
+    axios.get('/files/vin/list',{
+      params: {
+        "path": "/root"
+      }
+    })
+      .then(res => {
+        this.setState({filelist: res.data});
       }).catch( err => console.log(err));
   };
 
