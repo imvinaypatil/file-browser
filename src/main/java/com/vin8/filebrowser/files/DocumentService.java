@@ -1,6 +1,5 @@
 package com.vin8.filebrowser.files;
 
-import com.vin8.filebrowser.files.repositories.DirectoryRepository;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.codec.multipart.FilePart;
@@ -17,17 +16,15 @@ import java.util.UUID;
 public class DocumentService {
     private final ResourceLoader resourceLoader;
     private final DocumentRepository documentRepository;
-    private final DirectoryRepository directoryRepository;
-    private final String UPLOAD_ROOT = System.getProperty("user.dir").concat("\\repository");
+    private final String UPLOAD_ROOT = Paths.get(System.getProperty("user.dir"),"repository").toString();
 
-    public DocumentService(ResourceLoader resourceLoader, DocumentRepository documentRepository, DirectoryRepository directoryRepository) {
+    public DocumentService(ResourceLoader resourceLoader, DocumentRepository documentRepository) {
         this.resourceLoader = resourceLoader;
         this.documentRepository = documentRepository;
-        this.directoryRepository = directoryRepository;
     }
 
     public Mono<Resource> fetchOneFile(Mono<Document> documentMono) {
-        return documentMono.map(d -> resourceLoader.getResource("file:"+UPLOAD_ROOT+"/"+d.getOwner()+"/"+d.getName()));
+        return documentMono.map(d -> resourceLoader.getResource("file:"+Paths.get(UPLOAD_ROOT,d.getOwner(),d.getParentDirectory(),d.getName()).toString()));
     }
 
     /*
@@ -35,14 +32,18 @@ public class DocumentService {
     */
     public Mono<Void> createDocument(Flux<FilePart> files, String directory,String owner) {
         return files.flatMap(filePart -> {
-            Mono<Document> saveDatabaseDocument = documentRepository.save(new Document(UUID.randomUUID().toString(),filePart.filename(),directory,owner,System.currentTimeMillis(), "file"));
-            Mono<Void> copyFile = Mono.just(Paths.get(UPLOAD_ROOT,owner,filePart.filename()).toFile())
+            String id = UUID.randomUUID().toString();
+            Mono<Document> saveDatabaseDocument = documentRepository.save(new Document(id,filePart.filename(),directory,owner,System.currentTimeMillis(), "file"));
+            Mono<Void> copyFile = Mono.just(Paths.get(UPLOAD_ROOT,owner,directory,filePart.filename()).toFile())
                     .log("copying a file to the target directory")
                     .map(dest -> {
                         try {
+                            if (!dest.getParentFile().exists())
+                                dest.getParentFile().mkdirs();
                             dest.createNewFile();
                             return dest;
                         } catch (IOException e) {
+                            e.printStackTrace();
                             throw new RuntimeException(e);
                         }}).flatMap(filePart::transferTo); //TODO BUG file store .
             return Mono.when(saveDatabaseDocument,copyFile);

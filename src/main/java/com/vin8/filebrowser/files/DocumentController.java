@@ -9,8 +9,10 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Duration;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:3000")
 public class DocumentController {
 
     private final DocumentService documentService;
@@ -36,10 +38,9 @@ public class DocumentController {
                     } catch (IOException e) {
                         return ResponseEntity.badRequest().body(e.getMessage());
                     }
-                });
+                }).timeout(Duration.ofSeconds(1));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = BASE_PATH+"/"+"{user}"+"/list")
     @ResponseBody
     public Flux<Document> listFiles(@RequestParam String path) {
