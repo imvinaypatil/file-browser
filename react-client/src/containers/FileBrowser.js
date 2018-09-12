@@ -13,14 +13,14 @@ export default class FileBrowser extends Component {
             renderItem={(item) => {
               const {id, url, name, type, parentDirectory, creationTime, location} = item;
               const media = <Avatar customer size="medium" name={type} />;
-
+              const date = new Date(creationTime).toLocaleString();
               return (
-                <ResourceList.Item id={id} url={url} media={media} onClick={this.props.}>
+                <ResourceList.Item id={id} url={url} media={media} onClick={this.props.callListApi(parentDirectory+"/"+name)}>
                   <h3>
                     <TextStyle variation="strong">{name}</TextStyle><br />
-                    <TextStyle>{creationTime}</TextStyle>
+                    <TextStyle>{date}</TextStyle>
                   </h3>
-                  <div>{location}</div>
+                  {/* <div>{parentDirectory}</div> */}
                 </ResourceList.Item>
               );
             }}
