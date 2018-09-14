@@ -5,10 +5,9 @@ import '@shopify/polaris/styles.css';
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import MyNavbar from '../components/MyNavbar';
-import FileUploader from '../components/FileUploader';
-
 import FileBrowser from './FileBrowser';
 import axios from 'axios';
+import { Page } from '@shopify/polaris';
 
 class App extends Component {
 
@@ -39,7 +38,6 @@ class App extends Component {
       <div className="App">
         <MyNavbar></MyNavbar>
         <FileBrowser list={this.state.filelist} callListApi={this.callListApi}></FileBrowser>
-        <FileUploader></FileUploader>
       </div>
     );
   }

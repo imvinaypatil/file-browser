@@ -1,13 +1,15 @@
 
 .upload-box {
     position: relative;
-    width: 400px;
-    height: 150px;
     border-width: 2px;
+    border: 2px solid #e8e8e8;
     border-color: rgb(61, 115, 185);
     border-style: dashed;
-    border-radius: 5px;
+    border-radius: 4px;
     margin: 50px;
     align-content: center;
     text-align: center;
+    overflow: auto;
+    padding: 8px 24px;
+    height: 100px;
 }

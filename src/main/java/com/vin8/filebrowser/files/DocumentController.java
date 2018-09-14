@@ -48,8 +48,9 @@ public class DocumentController {
     }
 
     @PostMapping(BASE_PATH+"/"+"{user}"+"/upload")
-    public Mono<String> createFile(@RequestPart(name = "file")Flux<FilePart> files,@RequestParam String parent,@PathVariable String user) {
-        return documentService.createDocument(files,parent,user).then(Mono.just("redirect:/"));
+    public Mono<ResponseEntity> createFile(@RequestPart(name = "file")Flux<FilePart> files,@RequestParam String parent,@PathVariable String user) {
+        Mono<Void> createDoc = documentService.createDocument(files,parent,user);
+        return Mono.just(ResponseEntity.ok().body("success"));
     }
 
     @DeleteMapping(BASE_PATH+"/"+"{user}"+"/delete"+"/"+"{fileid}")
